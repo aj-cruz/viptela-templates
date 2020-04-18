@@ -1,3 +1,4 @@
+import getpass
 import requests
 import sys
 import json
@@ -22,15 +23,15 @@ from payloads import (
 
 requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
 
-vmanage_hostname = '1.1.1.11'
-username = 'admin'
-password = 'admin'
-
 class rest_api_lib:
     def __init__(self, vmanage_ip, username, password):
         self.vmanage_ip = vmanage_ip
         self.session = {}
-        self.login(self.vmanage_ip, username, password)
+        try:
+            self.login(self.vmanage_ip, username, password)
+        except:
+            print("\n\nLog in failed, exiting\n\n")
+            sys.exit()
 
     def login(self, vmanage_ip, username, password):
         """Login to vmanage"""
@@ -44,9 +45,8 @@ class rest_api_lib:
         sess = requests.session()
         #If the vmanage has a certificate signed by a trusted authority change verify to True
         login_response = sess.post(url=login_url, data=login_data, verify=False)
-        if not login_response.status_code == 200:
-            print("Login Failed")
-            sys.exit(0)
+        if b"html" in login_response.content:
+            sys.exit()
         else:
             self.session[vmanage_ip] = sess
 
@@ -72,7 +72,13 @@ class rest_api_lib:
             data = response.content
             return data
 
-def main():
+
+if __name__ == "__main__":
+    # Get vManage info & credentials
+    vmanage_hostname = input('\n\nvManage Hostname/IP Address: ')
+    username = input('Username: ')
+    password = getpass.getpass(prompt='Password: ')
+
     # Log in and create the session object
     obj = rest_api_lib(vmanage_hostname, username, password)
 
@@ -150,6 +156,3 @@ def main():
     print('\nCreating LAN Voice Interface Template')
     payload = payload_lan_voice_int.data().payload
     obj.post_request('template/feature/', payload)
-
-if __name__ == "__main__":
-    sys.exit(main())
