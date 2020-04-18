@@ -1,3 +1,17 @@
+"""
+Create various Viptela feature templates on a vManage.
+To maximize reusability of templates I made most platform dependent settings
+variables, such as interface names.
+The raw (JSON format) templates are in the payloads folder.
+The raw JSON templates can be modified as you see fit for your deployment, or
+modified via GUI after creation.
+
+Tested on the following vManage versions:
+    18.4.4
+
+aj.cruz@pivotts.com
+"""
+
 import getpass
 import requests
 import sys
