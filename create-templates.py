@@ -11,6 +11,9 @@ of configuration. There are three vipType's you should be aware of:
     2. constant (this sets the value to a global value you provide)
     3. variableName (this sets the value to a variable to be provided later)
 
+The script is indempotent based on template name. If the template name already
+exists, the POST for that template will not make any changes to the environment.
+
 Tested on the following vManage versions:
     18.4.4
 
@@ -37,7 +40,8 @@ from payloads import (
     payload_lan_data_int,
     payload_lan_voice_int,
     payload_vpn512,
-    payload_vpn512_int
+    payload_vpn512_int,
+    payload_vpn90
 )
 
 requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
@@ -142,7 +146,7 @@ if __name__ == "__main__":
     obj.post_request('template/feature/', payload)
 
     # Create VPN10 (Corporate) Template
-    print('\nCreating VPN10 Template')
+    print('\nCreating CORP VPN (10) Template')
     payload = payload_vpn10.data().payload
     obj.post_request('template/feature/', payload)
 
@@ -174,4 +178,9 @@ if __name__ == "__main__":
     # Create LAN Voice Interface Template
     print('\nCreating LAN Voice Interface Template')
     payload = payload_lan_voice_int.data().payload
+    obj.post_request('template/feature/', payload)
+
+    # Create VPN90 (PCI) Template
+    print('\nCreating PCI VPN (90) Template')
+    payload = payload_vpn90.data().payload
     obj.post_request('template/feature/', payload)
