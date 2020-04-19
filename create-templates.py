@@ -96,68 +96,88 @@ class rest_api_lib:
             return data
 
 def create_template_tasks():
+    '''
+    Create a list of tasks to complete (Feature Templates to create)
+    You can skip a task by setting it's execute_task option to False
+    '''
     tasks = [
         {
+            'execute_task': True,
             'description': 'Creating Global System Template',
             'payload': payload_global_system_template.data().payload
         },
         {
+            'execute_task': True,
             'description': 'Creating Global NTP Template',
             'payload': payload_ntp.data().payload
         },
         {
+            'execute_task': True,
             'description': 'Creating Management VPN (512) Template',
             'payload': payload_vpn512.data().payload
         },
         {
+            'execute_task': True,
             'description': 'Creating VPN512 Interface Template',
             'payload': payload_vpn512_int.data().payload
         },
         {
+            'execute_task': True,
             'description': 'Creating Global OMP Template',
             'payload': payload_omp.data().payload
         },
         {
+            'execute_task': True,
             'description': 'Creating Transport VPN (0) Template',
             'payload': payload_vpn0.data().payload
         },
         {
+            'execute_task': True,
             'description': 'Creating VPN0 Internet Interface Template',
             'payload': payload_vpn0_inet.data().payload
         },
         {
+            'execute_task': True,
             'description': 'Creating VPN0 MPLS Interface Template',
             'payload': payload_vpn0_mpls.data().payload
         },
         {
+            'execute_task': True,
             'description': 'Creating CORP VPN (10) Template',
             'payload': payload_vpn10.data().payload
         },
         {
+            'execute_task': True,
             'description': 'Creating VPN10 Hub Interface Template',
             'payload': payload_vpn10_hub_int.data().payload
         },
         {
+            'execute_task': True,
             'description': 'Creating Loopback0 Interface Template',
             'payload': payload_loopback0_int.data().payload
         },
         {
+            'execute_task': True,
             'description': 'Creating Hub OSPF Template',
             'payload': payload_ospf_hub.data().payload
         },
         {
+            'execute_task': True,
             'description': 'Creating LAN Physical Trunk Interface Template',
             'payload': payload_lan_trunk_int.data().payload
         },
         {
+            'execute_task': True,
             'description': 'Creating LAN Data Interface Template',
             'payload': payload_lan_data_int.data().payload
         },
         {
+            'execute_task': True,
             'description': 'Creating LAN Voice Interface Template',
             'payload': payload_lan_voice_int.data().payload
         },
         {
+            'execute_task': True,
             'description': 'Creating PCI VPN (90) Template',
             'payload': payload_vpn90.data().payload
         }
@@ -177,7 +197,8 @@ if __name__ == "__main__":
     task_list = create_template_tasks()
     # Create all the templates
     for task in task_list:
-        print('\n{}'.format(task['description']))
-        obj.post_request('template/feature/', task['payload'])
+        if task['execute_task']:
+            print('\n{}'.format(task['description']))
+            obj.post_request('template/feature/', task['payload'])
 
     print('\n\nALL TASKS COMPLETE, EXITING\n')
