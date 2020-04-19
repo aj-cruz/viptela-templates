@@ -5,6 +5,11 @@ variables, such as interface names.
 The raw (JSON format) templates are in the payloads folder.
 The raw JSON templates can be modified as you see fit for your deployment, or
 modified via GUI after creation.
+As you peruse the raw templates you'll notice a "vipType" key for every section
+of configuration. There are three vipType's you should be aware of:
+    1. ignore (this sets the value to the Viptela default)
+    2. constant (this sets the value to a global value you provide)
+    3. variableName (this sets the value to a variable to be provided later)
 
 Tested on the following vManage versions:
     18.4.4
