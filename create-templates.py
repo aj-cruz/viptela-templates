@@ -95,6 +95,74 @@ class rest_api_lib:
             data = response.content
             return data
 
+def create_template_tasks():
+    tasks = [
+        {
+            'description': 'Creating Global System Template',
+            'payload': payload_global_system_template.data().payload
+        },
+        {
+            'description': 'Creating Global NTP Template',
+            'payload': payload_ntp.data().payload
+        },
+        {
+            'description': 'Creating Management VPN (512) Template',
+            'payload': payload_vpn512.data().payload
+        },
+        {
+            'description': 'Creating VPN512 Interface Template',
+            'payload': payload_vpn512_int.data().payload
+        },
+        {
+            'description': 'Creating Global OMP Template',
+            'payload': payload_omp.data().payload
+        },
+        {
+            'description': 'Creating Transport VPN (0) Template',
+            'payload': payload_vpn0.data().payload
+        },
+        {
+            'description': 'Creating VPN0 Internet Interface Template',
+            'payload': payload_vpn0_inet.data().payload
+        },
+        {
+            'description': 'Creating VPN0 MPLS Interface Template',
+            'payload': payload_vpn0_mpls.data().payload
+        },
+        {
+            'description': 'Creating CORP VPN (10) Template',
+            'payload': payload_vpn10.data().payload
+        },
+        {
+            'description': 'Creating VPN10 Hub Interface Template',
+            'payload': payload_vpn10_hub_int.data().payload
+        },
+        {
+            'description': 'Creating Loopback0 Interface Template',
+            'payload': payload_loopback0_int.data().payload
+        },
+        {
+            'description': 'Creating Hub OSPF Template',
+            'payload': payload_ospf_hub.data().payload
+        },
+        {
+            'description': 'Creating LAN Physical Trunk Interface Template',
+            'payload': payload_lan_trunk_int.data().payload
+        },
+        {
+            'description': 'Creating LAN Data Interface Template',
+            'payload': payload_lan_data_int.data().payload
+        },
+        {
+            'description': 'Creating LAN Voice Interface Template',
+            'payload': payload_lan_voice_int.data().payload
+        },
+        {
+            'description': 'Creating PCI VPN (90) Template',
+            'payload': payload_vpn90.data().payload
+        }
+    ]
+    return tasks
 
 if __name__ == "__main__":
     # Get vManage info & credentials
@@ -105,82 +173,11 @@ if __name__ == "__main__":
     # Log in and create the session object
     obj = rest_api_lib(vmanage_hostname, username, password)
 
-    # Create Global System Template
-    print('\nCreating Global System Template')
-    payload = payload_global_system_template.data().payload
-    obj.post_request('template/feature/', payload)
+    # Create a list of all the tasks to be executed (templates to create)
+    task_list = create_template_tasks()
+    # Create all the templates
+    for task in task_list:
+        print('\n{}'.format(task['description']))
+        obj.post_request('template/feature/', task['payload'])
 
-    # Create Global NTP Template
-    print('\nCreating Global NTP Template')
-    payload = payload_ntp.data().payload
-    obj.post_request('template/feature/', payload)
-
-    # Create Global VPN512 Template
-    print('\nCreating Global VPN512 Template')
-    payload = payload_vpn512.data().payload
-    obj.post_request('template/feature/', payload)
-
-    # Create Global VPN512 (Mgmt Interface) Template
-    print('\nCreating Global VPN512 Interface Template')
-    payload = payload_vpn512_int.data().payload
-    obj.post_request('template/feature/', payload)
-
-    # Create Global OMP Template (Enable OSPF External Redistribution)
-    print('\nCreating Global OMP Template')
-    payload = payload_omp.data().payload
-    obj.post_request('template/feature/', payload)
-
-    # Create VPN0 Template
-    print('\nCreating VPN0 Template')
-    payload = payload_vpn0.data().payload
-    obj.post_request('template/feature/', payload)
-
-    # Create VPN0 Internet Interface Template
-    print('\nCreating VPN0 Internet Interface Template')
-    payload = payload_vpn0_inet.data().payload
-    obj.post_request('template/feature/', payload)
-
-    # Create VPN0 MPLS Interface Template
-    print('\nCreating VPN0 MPLS Interface Template')
-    payload = payload_vpn0_mpls.data().payload
-    obj.post_request('template/feature/', payload)
-
-    # Create VPN10 (Corporate) Template
-    print('\nCreating CORP VPN (10) Template')
-    payload = payload_vpn10.data().payload
-    obj.post_request('template/feature/', payload)
-
-    # Create VPN10 (Corporate) Hub Interface Template
-    print('\nCreating VPN10 Hub Interface Template')
-    payload = payload_vpn10_hub_int.data().payload
-    obj.post_request('template/feature/', payload)
-
-    # Create Loopback0 Interface Template
-    print('\nCreating Loopback0 Interface Template')
-    payload = payload_loopback0_int.data().payload
-    obj.post_request('template/feature/', payload)
-
-    # Create OSPF Template for Hub routers
-    print('\nCreating OSPF Hub Template')
-    payload = payload_ospf_hub.data().payload
-    obj.post_request('template/feature/', payload)
-
-    # Create LAN Trunk Physical Interface Template
-    print('\nCreating LAN Physical Trunk Interface Template')
-    payload = payload_lan_trunk_int.data().payload
-    obj.post_request('template/feature/', payload)
-
-    # Create LAN Data Interface Template
-    print('\nCreating LAN Data Interface Template')
-    payload = payload_lan_data_int.data().payload
-    obj.post_request('template/feature/', payload)
-
-    # Create LAN Voice Interface Template
-    print('\nCreating LAN Voice Interface Template')
-    payload = payload_lan_voice_int.data().payload
-    obj.post_request('template/feature/', payload)
-
-    # Create VPN90 (PCI) Template
-    print('\nCreating PCI VPN (90) Template')
-    payload = payload_vpn90.data().payload
-    obj.post_request('template/feature/', payload)
+    print('\n\nALL TASKS COMPLETE, EXITING\n')
