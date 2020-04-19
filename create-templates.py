@@ -39,6 +39,7 @@ from payloads import (
     payload_lan_trunk_int,
     payload_lan_data_int,
     payload_lan_voice_int,
+    payload_lan_pci_int,
     payload_vpn512,
     payload_vpn512_int,
     payload_vpn90
@@ -175,6 +176,11 @@ def create_template_tasks():
             'execute_task': True,
             'description': 'Creating LAN Voice Interface Template',
             'payload': payload_lan_voice_int.data().payload
+        },
+        {
+            'execute_task': True,
+            'description': 'Creating LAN PCI Interface Template',
+            'payload': payload_lan_pci_int.data().payload
         },
         {
             'execute_task': True,
