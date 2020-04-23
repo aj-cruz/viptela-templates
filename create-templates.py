@@ -11,7 +11,7 @@ of configuration. There are three vipType's you should be aware of:
     2. constant (this sets the value to a global value you provide)
     3. variableName (this sets the value to a variable to be provided later)
 
-The script is indempotent based on template name. If the template name already
+The script is idempotent based on template name. If the template name already
 exists, the POST for that template will not make any changes to the environment.
 
 Tested on the following vManage versions:
